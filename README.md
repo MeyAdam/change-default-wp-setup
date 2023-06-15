@@ -1,5 +1,5 @@
 # Default Installation WordPress Plugin
-This plugin will make some changes to default settings and content once activated.
+This plugin will make some changes to default settings and content once activated in fresh install WordPress.
 
 1. Delete 'Hello World' post.
 2. Install 'Hello Elementor' theme, activate it, and delete other deactivated themes.
