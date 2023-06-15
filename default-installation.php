@@ -4,7 +4,7 @@
  * @package DefaultInstallation
  * 
  * Plugin Name:       Default Installation
- * Plugin URI:        https://github.com/MeyAdam
+ * Plugin URI:        https://github.com/MeyAdam/default-installation-wp-plugin
  * Description:       Delete Hello World Post. Change date format to d/m/Y. Change homepage displays to "Sample Page" for easy stylesheet setup. Change Permalink structure to Post name. Delete Akismet and Hello Dolly plugins. Install Hello Elementor theme, activate it and delete other deactivated themes. Install Elementor Website Builder plugin.
  * Version:           1.0.0
  * Author:            Mey Adam
