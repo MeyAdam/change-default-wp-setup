@@ -120,7 +120,6 @@ class DefaultInstallation
         $zip->close();
         unlink($destination);
       }
-      activate_plugin('elementor/elementor.php');
     }
   }
 }
