@@ -13,7 +13,8 @@
  * Text Domain:       mey-plugin
  */
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
+if (!defined('ABSPATH'))
+  exit; // Exit if accessed directly
 
 class DefaultInstallation
 {
@@ -21,16 +22,16 @@ class DefaultInstallation
   {
     add_action('admin_init', array($this, 'delete_default_post_plugins'));
     add_action('admin_init', array($this, 'change_default_settings'));
-    add_action('admin_init', array($this, 'install_elementor_builder_plugin'));
     add_action('admin_init', array($this, 'install_and_delete_unused_theme'));
+    add_action('admin_init', array($this, 'install_elementor_builder_plugin'));
   }
 
   function activate()
   {
     $this->delete_default_post_plugins();
     $this->change_default_settings();
-    $this->install_elementor_builder_plugin();
     $this->install_and_delete_unused_theme();
+    $this->install_elementor_builder_plugin();
   }
 
   // Delete Hello World post and default installed plugins
@@ -60,28 +61,6 @@ class DefaultInstallation
 
     // change permalink structure to post name
     update_option('permalink_structure', '\/%postname%\/');
-  }
-
-  // install Elementor Website Builder
-  function install_elementor_builder_plugin()
-  {
-    WP_Filesystem();
-    global $wp_filesystem;
-
-    if (!is_plugin_active('elementor.php')) {
-      $plugin_url = wp_remote_get('https://downloads.wordpress.org/plugin/elementor.3.13.4.zip');
-      $plugins_path = WP_CONTENT_DIR . '/plugins';
-      $destination = $plugins_path . '/elementor.3.13.4.zip';
-      $wp_filesystem->put_contents($destination, $plugin_url['body']);
-      $zip = new ZipArchive;
-      $res = $zip->open($destination);
-      if ($res === true) {
-        $zip->extractTo($plugins_path);
-        $zip->close();
-        unlink($destination);
-      }
-      activate_plugin('elementor/elementor.php');
-    }
   }
 
   // install Hello Elementor theme and activate it and delete unused theme
@@ -120,6 +99,28 @@ class DefaultInstallation
           }
         }
       }
+    }
+  }
+
+  // install Elementor Website Builder
+  function install_elementor_builder_plugin()
+  {
+    WP_Filesystem();
+    global $wp_filesystem;
+
+    if (!file_exists(WP_PLUGIN_DIR . '/elementor/elementor.php')) {
+      $plugin_url = wp_remote_get('https://downloads.wordpress.org/plugin/elementor.3.13.4.zip');
+      $plugins_path = WP_CONTENT_DIR . '/plugins';
+      $destination = $plugins_path . '/elementor.3.13.4.zip';
+      $wp_filesystem->put_contents($destination, $plugin_url['body']);
+      $zip = new ZipArchive;
+      $res = $zip->open($destination);
+      if ($res === true) {
+        $zip->extractTo($plugins_path);
+        $zip->close();
+        unlink($destination);
+      }
+      activate_plugin('elementor/elementor.php');
     }
   }
 }
