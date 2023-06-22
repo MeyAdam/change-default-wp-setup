@@ -10,7 +10,7 @@
  * Author:            Mey Adam
  * Author URI:        https://meyadam.com/
  * License:           GPL v2 or later
- * Text Domain:       mey-plugin
+ * Text Domain:       default-installation
  */
 
 if (!defined('ABSPATH'))
@@ -109,7 +109,7 @@ class DefaultInstallation
     global $wp_filesystem;
 
     if (!file_exists(WP_PLUGIN_DIR . '/elementor/elementor.php')) {
-      $plugin_url = wp_remote_get('https://downloads.wordpress.org/plugin/elementor.3.13.4.zip');
+      $plugin_url = wp_remote_get('https://downloads.wordpress.org/plugin/elementor.3.14.0.zip');
       $plugins_path = WP_CONTENT_DIR . '/plugins';
       $destination = $plugins_path . '/elementor.3.13.4.zip';
       $wp_filesystem->put_contents($destination, $plugin_url['body']);
