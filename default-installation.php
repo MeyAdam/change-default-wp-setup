@@ -5,7 +5,7 @@
  * 
  * Plugin Name:       Default Installation
  * Plugin URI:        https://github.com/MeyAdam/default-installation-wp-plugin
- * Description:       Delete Hello World Post. Change date format to d/m/Y. Change homepage displays to "Sample Page" for easy stylesheet setup. Change Permalink structure to Post name. Delete Akismet and Hello Dolly plugins. Install Hello Elementor theme, activate it and delete other deactivated themes. Install Elementor Website Builder plugin.
+ * Description:       Delete Hello World Post. Change date format to d/m/Y. Change homepage displays to "Sample Page" for easy stylesheet setup. Change Permalink structure to Post name. Delete Akismet and Hello Dolly plugins. Install Hello Elementor theme, activate it and delete other deactivated themes. Install Elementor Website Builder & Wordfence Security plugin.
  * Version:           1.0.0
  * Author:            Mey Adam
  * Author URI:        https://meyadam.com/
@@ -23,7 +23,7 @@ class DefaultInstallation
     add_action('admin_init', array($this, 'delete_default_post_plugins'));
     add_action('admin_init', array($this, 'change_default_settings'));
     add_action('admin_init', array($this, 'install_and_delete_unused_theme'));
-    add_action('admin_init', array($this, 'install_elementor_builder_plugin'));
+    add_action('admin_init', array($this, 'install_additional_plugins'));
   }
 
   function activate()
@@ -31,7 +31,7 @@ class DefaultInstallation
     $this->delete_default_post_plugins();
     $this->change_default_settings();
     $this->install_and_delete_unused_theme();
-    $this->install_elementor_builder_plugin();
+    $this->install_additional_plugins();
   }
 
   // Delete Hello World post and default installed plugins
@@ -102,23 +102,38 @@ class DefaultInstallation
     }
   }
 
-  // install Elementor Website Builder
-  function install_elementor_builder_plugin()
+  // install Elementor Website Builder, Wordfence Security plugin
+  function install_additional_plugins()
   {
-    WP_Filesystem();
+    WP_Filesystem('direct');
     global $wp_filesystem;
 
     if (!file_exists(WP_PLUGIN_DIR . '/elementor/elementor.php')) {
-      $plugin_url = wp_remote_get('https://downloads.wordpress.org/plugin/elementor.3.14.0.zip');
+      $elementor_url = wp_remote_get('https://downloads.wordpress.org/plugin/elementor.3.14.0.zip');
+      $wordfence_url = wp_remote_get('https://downloads.wordpress.org/plugin/wordfence.7.10.0.zip');
+
       $plugins_path = WP_CONTENT_DIR . '/plugins';
-      $destination = $plugins_path . '/elementor.3.13.4.zip';
-      $wp_filesystem->put_contents($destination, $plugin_url['body']);
+
+      $destination_elementor = $plugins_path . '/elementor.3.14.0.zip';
+      $destination_wordfence = $plugins_path . '/wordfence.7.10.0.zip';
+
+      $wp_filesystem->put_contents($destination_elementor, $elementor_url['body']);
+      $wp_filesystem->put_contents($destination_wordfence, $wordfence_url['body']);
+
       $zip = new ZipArchive;
-      $res = $zip->open($destination);
+      $res = $zip->open($destination_elementor);
       if ($res === true) {
         $zip->extractTo($plugins_path);
         $zip->close();
-        unlink($destination);
+        unlink($destination_elementor);
+      }
+
+      $zip = new ZipArchive;
+      $res = $zip->open($destination_wordfence);
+      if ($res === true) {
+        $zip->extractTo($plugins_path);
+        $zip->close();
+        unlink($destination_wordfence);
       }
     }
   }
