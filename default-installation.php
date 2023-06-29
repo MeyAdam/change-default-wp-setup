@@ -109,7 +109,7 @@ class DefaultInstallation
     global $wp_filesystem;
 
     if (!file_exists(WP_PLUGIN_DIR . '/elementor/elementor.php')) {
-      $elementor_url = wp_remote_get('https://downloads.wordpress.org/plugin/elementor.3.14.0.zip');
+      $elementor_url = wp_remote_get('https://downloads.wordpress.org/plugin/elementor.3.14.1.zip');
       $wordfence_url = wp_remote_get('https://downloads.wordpress.org/plugin/wordfence.7.10.0.zip');
 
       $plugins_path = WP_CONTENT_DIR . '/plugins';
