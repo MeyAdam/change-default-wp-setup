@@ -114,7 +114,7 @@ class DefaultInstallation
 
       $plugins_path = WP_CONTENT_DIR . '/plugins';
 
-      $destination_elementor = $plugins_path . '/elementor.3.14.0.zip';
+      $destination_elementor = $plugins_path . '/elementor.3.14.1.zip';
       $destination_wordfence = $plugins_path . '/wordfence.7.10.0.zip';
 
       $wp_filesystem->put_contents($destination_elementor, $elementor_url['body']);
