@@ -142,9 +142,9 @@ if (!class_exists('ChangeDefaultWPSetup')) {
       if ($elementor_info && isset($elementor_info['download_link'])) {
         $download_link = $elementor_info['download_link'];
         $file_name = basename($download_link);
-        $zip_path = WP_PLUGIN_DIR . '/' . $file_name;
+        $zip_path = plugin_dir_path(__FILE__) . $file_name;
 
-        $elementor_dir = WP_PLUGIN_DIR . "/elementor";
+        $elementor_dir = plugin_dir_path(__FILE__) . "elementor";
 
         if (!is_dir($elementor_dir)) {
           $zip_file = file_get_contents($download_link);
@@ -152,7 +152,7 @@ if (!class_exists('ChangeDefaultWPSetup')) {
 
           $zip = new ZipArchive;
           if ($zip->open($zip_path) === true) {
-            $zip->extractTo(WP_PLUGIN_DIR);
+            $zip->extractTo(plugin_dir_path(__FILE__));
             $zip->close();
             unlink($zip_path);
           }
